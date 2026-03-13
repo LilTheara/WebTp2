@@ -7,7 +7,7 @@ using System.Web;
 namespace PhotosManager.WebServices
 {
     public class Country
-    {
+    {   
         const string FlagCDN = @"https://flagcdn.com/";
         public string Code { get; set; }
         public string Name { get; set; }

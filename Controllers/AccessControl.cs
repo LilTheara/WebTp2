@@ -25,7 +25,7 @@ namespace Controllers
 
             protected override bool AuthorizeCore(HttpContextBase httpContext)
             {
-                bool ajaxRequest = HttpContext.Current.Request.Headers[13] == "cors";
+                bool ajaxRequest = HttpContext.Current.Request.Headers["Origin"] == "cors";
                 try
                 {
                     try
