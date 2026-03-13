@@ -141,6 +141,7 @@
     <Compile Include="WebServices\GeoLocation.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Users.json" />
     <Content Include="Content\Accounts.css" />
     <Content Include="Content\Icons.css" />
     <Content Include="Content\media.css" />
@@ -169,7 +170,6 @@
     <Content Include="Scripts\SiteNotificationsHandler.js" />
     <Content Include="Scripts\SiteScripts.js" />
     <Content Include="updatingView.gif" />
-    <Content Include="WebApp.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\autoRefreshPanel.js" />
@@ -188,7 +188,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="WebApp1.png" />
+    <Content Include="WebApp.png" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

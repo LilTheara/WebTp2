@@ -1,8 +1,9 @@
-﻿using DAL;
-using Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using DAL;
+using Models;
+using static Controllers.AccessControl;
 
 public class MediasController : Controller
 {
@@ -40,8 +41,8 @@ public class MediasController : Controller
                 Session["SelectedCategory"] = "";
         }
     }
-
-    public ActionResult GetMediasCategoriesList(bool forceRefresh = false)
+	[UserAccess(Models.Access.View)]
+	public ActionResult GetMediasCategoriesList(bool forceRefresh = false)
     {
         try
         {
@@ -60,9 +61,10 @@ public class MediasController : Controller
             return Content("Erreur interne" + ex.Message, "text/html");
         }
     }
-    // This action produce a partial view of Medias
-    // It is meant to be called by an AJAX request (from client script)
-    public ActionResult GetMedias(bool forceRefresh = false)
+	// This action produce a partial view of Medias
+	// It is meant to be called by an AJAX request (from client script)
+	[UserAccess(Models.Access.View)]
+	public ActionResult GetMedias(bool forceRefresh = false)
     {
         try
         {
@@ -110,53 +112,57 @@ public class MediasController : Controller
         }
     }
 
-
-    public ActionResult List()
+	[UserAccess(Models.Access.View)]
+	public ActionResult List()
     {
         ResetCurrentMediaInfo();
         return View();
     }
-
-    public ActionResult ToggleSearch()
+	[UserAccess(Models.Access.View)]
+	public ActionResult ToggleSearch()
     {
         if (Session["Search"] == null) Session["Search"] = false;
         Session["Search"] = !(bool)Session["Search"];
         return RedirectToAction("List");
     }
-    public ActionResult SortByTitle()
+	[UserAccess(Models.Access.View)]
+	public ActionResult SortByTitle()
     {
         Session["SortByTitle"] = true;
         return RedirectToAction("List");
     }
-    public ActionResult ToggleSort()
+	[UserAccess(Models.Access.View)]
+	public ActionResult ToggleSort()
     {
         Session["SortAscending"] = !(bool)Session["SortAscending"];
         return RedirectToAction("List");
     }
-    public ActionResult SortByDate()
+	[UserAccess(Models.Access.View)]
+	public ActionResult SortByDate()
     {
         Session["SortByTitle"] = false;
         return RedirectToAction("List");
     }
-
-    public ActionResult SetSearchString(string value)
+	[UserAccess(Models.Access.View)]
+	public ActionResult SetSearchString(string value)
     {
         Session["SearchString"] = value.ToLower();
         return RedirectToAction("List");
     }
-
-    public ActionResult SetSearchCategory(string value)
+	[UserAccess(Models.Access.View)]
+	public ActionResult SetSearchCategory(string value)
     {
         Session["SelectedCategory"] = value;
         return RedirectToAction("List");
     }
-    public ActionResult About()
+	[UserAccess(Models.Access.View)]
+	public ActionResult About()
     {
         return View();
     }
 
-
-    public ActionResult Details(int id)
+	[UserAccess(Models.Access.View)]
+	public ActionResult Details(int id)
     {
         Session["CurrentMediaId"] = id;
         Media Media = DB.Medias.Get(id);
@@ -167,7 +173,8 @@ public class MediasController : Controller
         }
         return RedirectToAction("List");
     }
-    public ActionResult Create()
+	[UserAccess(Models.Access.Write)]
+	public ActionResult Create()
     {
         return View(new Media());
     }
@@ -177,13 +184,14 @@ public class MediasController : Controller
      * the goal is to prevent submission of data from a page 
      * that has not been produced by this application*/
     [ValidateAntiForgeryToken()]
-    public ActionResult Create(Media Media)
+	[UserAccess(Models.Access.Write)]
+	public ActionResult Create(Media Media)
     {
         DB.Medias.Add(Media);
         return RedirectToAction("List");
     }
-
-    public ActionResult Edit()
+	[UserAccess(Models.Access.Write)]
+	public ActionResult Edit()
     {
         // Note that id is not provided has a parameter.
         // It use the Session["CurrentMediaId"] set within
@@ -203,7 +211,8 @@ public class MediasController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken()]
-    public ActionResult Edit(Media Media)
+	[UserAccess(Models.Access.Write)]
+	public ActionResult Edit(Media Media)
     {
         // Has explained earlier, id of Media is stored server side an not provided in form data
         // passed in the method in order to prever from malicious requests
@@ -220,7 +229,8 @@ public class MediasController : Controller
         }
         return RedirectToAction("Details/" + id);
     }
-    public ActionResult Delete()
+	[UserAccess(Models.Access.Write)]
+	public ActionResult Delete()
     {
         int id = Session["CurrentMediaId"] != null ? (int)Session["CurrentMediaId"] : 0;
         if (id != 0)

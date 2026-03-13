@@ -20,7 +20,7 @@ namespace Wikimedia
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Medias", action = "List", id = UrlParameter.Optional }
+                defaults: new { controller = "Accounts", action = "Login", id = UrlParameter.Optional }
             );
         }
     }
