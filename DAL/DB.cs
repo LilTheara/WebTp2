@@ -9,7 +9,7 @@ using System.Web.Hosting;
 namespace DAL
 {
     public sealed class DB
-    {
+    {    //im trying if its work le github
         #region singleton setup
         private static readonly DB instance = new DB();
         public static DB Instance { get { return instance; } }
