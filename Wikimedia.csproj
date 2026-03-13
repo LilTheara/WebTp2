@@ -141,7 +141,6 @@
     <Compile Include="WebServices\GeoLocation.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\Users.json" />
     <Content Include="Content\Accounts.css" />
     <Content Include="Content\Icons.css" />
     <Content Include="Content\media.css" />
