@@ -110,6 +110,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccessControl.cs" />
     <Compile Include="Controllers\AccountsController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MediasController.cs" />
     <Compile Include="Controllers\NotificationsController.cs" />
     <Compile Include="DAL\AssetAttribute.cs" />
