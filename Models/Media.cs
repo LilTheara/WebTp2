@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-
+using Newtonsoft.Json;
 namespace Models
 {
     public class Media : Record
@@ -13,5 +13,17 @@ namespace Models
         public string Description { get; set; }
         public string YoutubeId { get; set; }
         public DateTime PublishDate { get; set; } = DateTime.Now;
+        public int OwnerId { get; set; }
+        public bool Shared { get; set; }
+
+        [JsonIgnore]
+        public User Owner
+        {
+            get
+            {
+                return DB.Users.Get(OwnerId);
+            }
+        }
+
     }
 }

@@ -11,5 +11,11 @@
 
         <dt>Date de publication</dt>
         <dd>@Helper.When(Model.PublishDate)</dd>
+
+        <dt>Propriétaire</dt>
+        <dd>@Model.Owner.Name</dd>
+
+        <dt>Partagée</dt>
+        <dd>@(Model.Shared ? "Oui" : "Non")</dd>
     </dl>
 </div>

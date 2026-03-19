@@ -80,29 +80,43 @@ namespace Controllers
                     InitSessionVariables();
                     bool search = (bool)Session["Search"];
                     string searchString = (string)Session["SearchString"];
+                    string selectedCategory = (string)Session["SelectedCategory"];
+
+                    User connectedUser = Models.User.ConnectedUser;
+                    if (connectedUser.IsAdmin)
+                    {
+                        result = DB.Medias.ToList();
+                    }
+                    else
+                    {
+                        result = DB.Medias.ToList()
+                            .Where(m => m.OwnerId == connectedUser.Id || m.Shared);
+                    }
 
                     if (search)
                     {
-                        result = DB.Medias.ToList().Where(c => c.Title.ToLower().Contains(searchString)).OrderBy(c => c.Title);
-                        string SelectedCategory = (string)Session["SelectedCategory"];
-                        if (SelectedCategory != "")
-                            result = result.Where(c => c.Category == SelectedCategory);
+                        result = result.Where(m => m.Title.ToLower().Contains(searchString));
                     }
-                    else
-                        result = DB.Medias.ToList();
+
+     
+                    if (selectedCategory != "")
+                    {
+                        result = result.Where(m => m.Category == selectedCategory);
+                    }
+
                     if ((bool)Session["SortAscending"])
                     {
                         if ((bool)Session["SortByTitle"])
-                            result = result.OrderBy(c => c.Title);
+                            result = result.OrderBy(m => m.Title);
                         else
-                            result = result.OrderBy(c => c.PublishDate);
+                            result = result.OrderBy(m => m.PublishDate);
                     }
                     else
                     {
                         if ((bool)Session["SortByTitle"])
-                            result = result.OrderByDescending(c => c.Title);
+                            result = result.OrderByDescending(m => m.Title);
                         else
-                            result = result.OrderByDescending(c => c.PublishDate);
+                            result = result.OrderByDescending(m => m.PublishDate);
                     }
                     return PartialView(result);
                 }
@@ -170,6 +184,10 @@ namespace Controllers
             Media media = DB.Medias.Get(id);
             if (media != null)
             {
+                User connectedUser = Models.User.ConnectedUser;
+
+                if (!connectedUser.IsAdmin && media.OwnerId != connectedUser.Id && !media.Shared)
+                    return RedirectToAction("List");
                 Session["CurrentMediaTitle"] = media.Title;
                 return View(media);
             }
@@ -208,8 +226,10 @@ namespace Controllers
          * that has not been produced by this application*/
         [ValidateAntiForgeryToken()]
         [UserAccess(Models.Access.Write)]
-        public ActionResult Create(Media Media)
+        public ActionResult Create(Media Media, string SharedCB="off")
         {
+            Media.OwnerId = Models.User.ConnectedUser.Id;
+            Media.Shared = SharedCB == "on";
             DB.Medias.Add(Media);
             return RedirectToAction("List");
         }
@@ -235,7 +255,7 @@ namespace Controllers
         [HttpPost]
         [ValidateAntiForgeryToken()]
         [UserAccess(Models.Access.Write)]
-        public ActionResult Edit(Media Media)
+        public ActionResult Edit(Media Media, string SharedCB = "off")
         {
             // Has explained earlier, id of Media is stored server side an not provided in form data
             // passed in the method in order to prever from malicious requests
@@ -248,6 +268,8 @@ namespace Controllers
             {
                 Media.Id = id; // patch the Id
                 Media.PublishDate = storedMedia.PublishDate; // keep orignal PublishDate
+                Media.OwnerId = storedMedia.OwnerId;   
+                Media.Shared = SharedCB == "on";
                 DB.Medias.Update(Media);
             }
             return RedirectToAction("Details/" + id);
