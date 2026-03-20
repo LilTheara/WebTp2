@@ -1,5 +1,3 @@
-
-
 form {
     max-width: 4in;
     margin: auto;
@@ -15,13 +13,14 @@ form {
 
 
 .detailsPanel dl {
-    margin:auto; 
-
-    font-size:1em;
+    margin: auto;
+    font-size: 1em;
 }
+
 .detailsPanel dt {
     color: gray;
 }
+
 .detailsPanel dd {
     font-size: 1.4em;
     font-weight: bold;
@@ -30,10 +29,12 @@ form {
 fieldset {
     border: 1px solid #ddd !important;
     border-radius: 6px !important;
-    padding: 12px !important;
+    padding: 8px !important;
+    padding-top: 16px !important;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 8px;
+    margin-bottom: 6px;
 }
 
 legend {
@@ -43,10 +44,14 @@ legend {
     float: none;
     width: inherit;
     padding: 0 6px;
-    border-bottom: none;
-    margin-left:6px;
-    margin-bottom: 0;
-    transform:translate(0,-1px);
+    margin-left: 6px;
+    margin-bottom: -12px;
+    transform: translate(0,-1px);
+    text-align: left;
+}
+
+input, textarea {
+    margin: 0px !important;
 }
 
 label {

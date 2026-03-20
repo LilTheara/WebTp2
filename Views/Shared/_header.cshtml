@@ -115,7 +115,7 @@
 				break;
 			case "details":
 				<div id="mainMenuPanel" class="menu">
-					@if (userCanWrite)
+					@if (userCanWrite && (bool)ViewBag.isOwner)
 					{
 						<a href="/@controller/Edit" class="cmdIcon fa fa-pen-to-square" title="Modifier..."></a>
 						<i class="cmdIcon fa fa-trash-can"

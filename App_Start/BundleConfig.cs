@@ -29,6 +29,7 @@ namespace Wikimedia
 						"~/Content/Icons.css",
 						"~/Content/image-control.css",
 						"~/Content/jqui-custom-datepicker.css",
+						"~/Content/details.css",
 						"~/Content/media.css"));
         }
     }

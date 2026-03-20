@@ -186,6 +186,8 @@ namespace Controllers
             Media media = DB.Medias.Get(id);
 			if (media != null)
 			{
+                bool isOwner = Models.User.ConnectedUser.IsAdmin || media.OwnerId == Models.User.ConnectedUser.Id;
+                ViewBag.isOwner = isOwner;
 				Session["CurrentMediaTitle"] = media.Title;
 				return View(media);
 			}

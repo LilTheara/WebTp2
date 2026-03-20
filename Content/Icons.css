@@ -1,5 +1,4 @@
-﻿
-.icon {
+﻿.icon {
     font-size: 25px;
     cursor: pointer;
     -webkit-text-stroke-width: 0.75px;
@@ -18,8 +17,9 @@
     }
 
 .small_icon {
-    height:     25px;
+    height: 25px;
 }
+
 .xsmall_icon {
-    height:18px;
+    height: 18px;
 }
