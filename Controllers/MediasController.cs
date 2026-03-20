@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using DAL;
 using Models;
@@ -246,7 +247,12 @@ namespace Controllers
             if (id != 0)
             {
                 Media Media = DB.Medias.Get(id);
-                if (Media != null)
+				User currentUser = Models.User.ConnectedUser;
+				if (Media.OwnerId != currentUser.Id)
+				{
+                    return Redirect("/Accounts/Login?message=Accès illégal!&success=false");
+				}
+				if (Media != null)
                     return View(Media);
             }
             return RedirectToAction("List");
@@ -264,7 +270,12 @@ namespace Controllers
 
             // Make sure that the Media of id really exist
             Media storedMedia = DB.Medias.Get(id);
-            if (storedMedia != null)
+			User currentUser = Models.User.ConnectedUser;
+			if (storedMedia.OwnerId != currentUser.Id)
+			{
+				return Redirect("/Accounts/Login?message=Accès illégal!&success=false");
+			}
+			if (storedMedia != null)
             {
                 Media.Id = id; // patch the Id
                 Media.PublishDate = storedMedia.PublishDate; // keep orignal PublishDate
@@ -280,7 +291,13 @@ namespace Controllers
             int id = Session["CurrentMediaId"] != null ? (int)Session["CurrentMediaId"] : 0;
             if (id != 0)
             {
-                DB.Medias.Delete(id);
+				Media Media = DB.Medias.Get(id);
+				User currentUser = Models.User.ConnectedUser;
+				if (Media.OwnerId != currentUser.Id)
+				{
+					return Redirect("/Accounts/Login?message=Accès illégal!&success=false");
+				}
+				DB.Medias.Delete(id);
             }
             return RedirectToAction("List");
         }

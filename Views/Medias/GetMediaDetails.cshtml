@@ -1,21 +1,27 @@
 @model Models.Media
 
 <div class="detailsPanel">
-    <dl>
-        <dd>@Model.Title</dd>
-        <dd>@Helper.YoutubePlayer(Model.YoutubeId)</dd>
-        <dd class="description">@Model.Description</dd>
+	<dl>
+		<dd>@if (Model.Shared) { 
+			<span style="color:grey">[Partagé]</span>
+		}</dd>
 
-        <dt>Catégorie</dt>
-        <dd>@Model.Category</dd>
+		<dd>@Model.Title</dd>
+		<dd>@Helper.YoutubePlayer(Model.YoutubeId)</dd>
+		<dd class="description">@Model.Description</dd>
 
-        <dt>Date de publication</dt>
-        <dd>@Helper.When(Model.PublishDate)</dd>
+		<dt>Catégorie</dt>
+		<dd>@Model.Category</dd>
 
-        <dt>Propriétaire</dt>
-        <dd>@Model.Owner.Name</dd>
+		<dt>Date de publication</dt>
+		<dd>@Helper.When(Model.PublishDate)</dd>
 
-        <dt>Partagée</dt>
-        <dd>@(Model.Shared ? "Oui" : "Non")</dd>
-    </dl>
+		<dt>Propriétaire</dt>
+		<dd class="owner">
+			<div class="userItem">
+				@Helper.Image(Model.Owner.Avatar, "UserMediumAvatar")
+				<div class="ellipsis">@Model.Owner.Name</div>
+			</div>
+		</dd>
+	</dl>
 </div>

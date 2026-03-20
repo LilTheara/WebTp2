@@ -2,23 +2,33 @@
 
 @if (Model.Count() != 0)
 {
-    foreach (var media in Model)
-    {
-        <div class="mediaLayout">
-            <a href="/Medias/Details/@media.Id" title="Voir les détails de @media.Title" style="text-decoration:none; width:100% !important">
-                <div class="mediaThumbnail" 
-                     style="background-image:url('https://img.youtube.com/vi/@media.YoutubeId/mqdefault.jpg');">
-                </div>
-            </a>
+	foreach (var media in Model)
+	{
+		if (media.Shared || media.OwnerId == Models.User.ConnectedUser.Id)
+		{
+			
+			<div class="mediaLayout">
+				<a href="/Medias/Details/@media.Id" title="Voir les détails de @media.Title" style="text-decoration:none; width:100% !important">
+					<div class="mediaThumbnail"
+						 style="background-image:url('https://img.youtube.com/vi/@media.YoutubeId/mqdefault.jpg'); padding:6px;display:flex;
+						 flex-flow:row-reverse">
+						<div class="UserSmallAvatar transparentBackground" style="background-image:url(@media.Owner.Avatar); border:0.1px solid white;" title="Ajouté par @media.Owner.Name"></div>
+						@if (media.OwnerId == Models.User.ConnectedUser.Id && media.Shared)
+						{
+							<div class="UserSmallAvatar transparentBackground" style="background-image: url('/Content/UI-Images/shared.png'); margin-right: 6px;" title="partagée"></div>
+						}
+					</div>
+				</a>
 
-            <div class="ellipsis" style="margin-left: 4px; margin-right: 4px; font-size: 0.8em; font-weight: bold">
-                @media.Title
-            </div>
-            <div style="margin-left: 4px; color: gray; font-size: 0.65em">@media.Category <br /> @Helper.When(media.PublishDate) </div>
-        </div>
-    }
+				<div class="ellipsis" style="margin-left: 4px; margin-right: 4px; font-size: 0.8em; font-weight: bold">
+					@media.Title
+				</div>
+				<div style="margin-left: 4px; color: gray; font-size: 0.65em">@media.Category <br /> @Helper.When(media.PublishDate) </div>
+			</div>
+		}
+	}
 }
 else
 {
-    <h3>Aucun résulat</h3>
+	<h3>Aucun résulat</h3>
 }

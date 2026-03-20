@@ -40,7 +40,9 @@ namespace Controllers
                         {
                             if (User.ConnectedUser.Access < RequiredAccess || User.ConnectedUser.Blocked)
                             {
-                                return false;
+								if (!ajaxRequest)
+									httpContext.Response.Redirect("/Accounts/Login?message=Accès illégal!&success=false");
+								return false;
                             }
                             return true;
                         }

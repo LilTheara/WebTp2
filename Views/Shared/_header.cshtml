@@ -60,6 +60,40 @@
 						</div>
 						<!-- Menu items -->
 						<div class="dropdown-menu noselect" id="DDMenu">
+
+							<div class="dropdown-item item-layout">
+								<i class="menuIcon fa fa-address-card"></i>
+								<a href="/Accounts/EditProfil">Profil...</a>
+							</div>
+							<div class="dropdown-item item-layout">
+								<i class="menuIcon fa fa-sign-out"></i>
+								<a href="/Accounts/Logout">Déconnexion...</a>
+							</div>
+							@if (userIsAdmin)
+							{
+								<div class="dropdown-divider"></div>
+
+								<div class="dropdown-item item-layout">
+									<i class="menuIcon fa fa-users"></i>
+									<a href="/Accounts/ManageUsers">
+										Gestion des usagers...
+									</a>
+								</div>
+								<div class="dropdown-item item-layout">
+									<i class="menuIcon fa fa-calendar-days"></i>
+									<a href="/Accounts/LoginsJournal">
+										Historique de connexions...
+									</a>
+								</div>
+								<div class="dropdown-item item-layout">
+									<i class="menuIcon fa fa-gear"></i>
+									<a href="/Accounts/EventsJournal">
+										Journal d'activités...
+									</a>
+								</div>
+							}
+							<div class="dropdown-divider"></div>
+
 							<div class="dropdown-item item-layout">
 								<i class="menuIcon fa @checkSortByTitle"></i>
 								<a href="/@controller/SortByTitle">Trier par titre</a>
@@ -70,6 +104,7 @@
 							</div>
 
 							<div class="dropdown-divider"></div>
+
 							<div class="dropdown-item item-layout">
 								<i class="menuIcon fa fa-info-circle"></i>
 								<a href="/@controller/About">À propos...</a>
@@ -104,8 +139,20 @@
 				</div>
 				break;
 			case "loginsjournal":
+				<div id="mainMenuPanel" class="menu">
+					<a href="@RouteConfig.DefaultAction()" class="cmdIcon fa fa-square-xmark" title="Retour"></a>
+				</div>
+				break;
 			case "eventsjournal":
+				<div id="mainMenuPanel" class="menu">
+					<a href="@RouteConfig.DefaultAction()" class="cmdIcon fa fa-square-xmark" title="Retour"></a>
+				</div>
+				break;
 			case "manageusers":
+				<div id="mainMenuPanel" class="menu">
+					<a href="@RouteConfig.DefaultAction()" class="cmdIcon fa fa-square-xmark" title="Retour"></a>
+				</div>
+				break;
 			case "about":
 				<div id="mainMenuPanel" class="menu">
 					<a href="/@controller/List" class="cmdIcon fa fa-square-xmark" title="Retour"></a>
@@ -122,63 +169,6 @@
 				<div id="mainMenuPanel" class="menu">
 					<i class="cmdIcon submitCmd fa fa-circle-check" title="Soumettre" onclick="document.getElementById('submit').click()"></i>
 					<a class="cmdIcon fa fa-square-xmark" title="Annuler" onclick="history.back()"></a>
-				</div>
-				break;
-			case "protectedview":
-				<div id="mainMenuPanel" class="menu">
-					@if (userCanWrite)
-					{
-						<a href="/@controller/Create" class="cmdIcon fa fa-circle-plus" title="Ajouter..."></a>
-					}
-					<a href="/@controller/ToggleSearch" id="cmdToggleSearch" class="cmdIcon fa fa-search" title="Recherche..."></a>
-					<!-- Dropdown menu -->
-					<div id="menu" class="dropdown ms-auto">
-						<!-- Drop down menu acces icon -->
-						<div data-bs-toggle="dropdown" aria-expanded="false">
-							<i class="cmdIcon fa fa-bars" title="Menu"></i>
-						</div>
-						<!-- Drop down menu items -->
-						<div class="dropdown-menu noselect" id="DDMenu" style="width:300px !important">
-							<div class="dropdown-item item-layout">
-								<i class="menuIcon fa fa-address-card"></i>
-								<a href="/Accounts/EditProfil">Profil...</a>
-							</div>
-							<div class="dropdown-item item-layout">
-								<i class="menuIcon fa fa-sign-out"></i>
-								<a href="/Accounts/Logout">Déconnexion...</a>
-							</div>
-							@if (userIsAdmin)
-							{
-								<div class="dropdown-divider"></div>
-
-								<div class="dropdown-item item-layout">
-									<i class="menuIcon fa fa-users"></i>
-									<a href="/Accounts/ManageUsers">
-										Gestion des usagers...
-									</a>
-								</div>
-								<div class="dropdown-item item-layout">
-									<i class="menuIcon fa fa-calendar-days"></i>
-									<a href="/Accounts/LoginsJournal">
-										Historique de connexions...
-									</a>
-								</div>
-								<div class="dropdown-item item-layout">
-									<i class="menuIcon fa fa-gear"></i>
-									<a href="/Accounts/EventsJournal">
-										Journal d'activités...
-									</a>
-								</div>
-							}
-
-							<div class="dropdown-divider"></div>
-
-							<div class="dropdown-item item-layout">
-								<i class="menuIcon fa fa-info-circle"></i>
-								<a href="/@controller/About">À propos...</a>
-							</div>
-						</div>
-					</div>
 				</div>
 				break;
 		}
