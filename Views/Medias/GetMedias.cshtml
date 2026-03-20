@@ -13,7 +13,7 @@
 						 style="background-image:url('https://img.youtube.com/vi/@media.YoutubeId/mqdefault.jpg'); padding:6px;display:flex;
 						 flex-flow:row-reverse">
 						<div class="UserSmallAvatar transparentBackground" style="background-image:url(@media.Owner.Avatar); border:0.1px solid white;" title="Ajouté par @media.Owner.Name"></div>
-						@if (media.OwnerId == Models.User.ConnectedUser.Id && media.Shared)
+						@if ((media.OwnerId == Models.User.ConnectedUser.Id && media.Shared) || (Models.User.ConnectedUser.IsAdmin && media.Shared))
 						{
 							<div class="UserSmallAvatar transparentBackground" style="background-image: url('/Content/UI-Images/shared.png'); margin-right: 6px;" title="partagée"></div>
 						}

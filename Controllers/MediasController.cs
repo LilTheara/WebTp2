@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Caching;
 using System.Web.Mvc;
 using DAL;
 using Models;
@@ -183,23 +184,19 @@ namespace Controllers
         {
             Session["CurrentMediaId"] = id;
             Media media = DB.Medias.Get(id);
-            if (media != null)
-            {
-                User connectedUser = Models.User.ConnectedUser;
-
-                if (!connectedUser.IsAdmin && media.OwnerId != connectedUser.Id && !media.Shared)
-                    return RedirectToAction("List");
-                Session["CurrentMediaTitle"] = media.Title;
-                return View(media);
-            }
-            return RedirectToAction("List");
+			if (media != null)
+			{
+				Session["CurrentMediaTitle"] = media.Title;
+				return View(media);
+			}
+			return RedirectToAction("List");
         }
         [UserAccess(Models.Access.View)]
         public ActionResult GetMediaDetails(bool forceRefresh = false)
         {
             try
             {
-                int id = Session["CurrentMediaId"] != null ? (int)Session["CurrentMediaId"] : 0;
+                /*int id = Session["CurrentMediaId"] != null ? (int)Session["CurrentMediaId"] : 0;
 
                 if (DB.Medias.HasChanged || forceRefresh)
                 {
@@ -208,8 +205,19 @@ namespace Controllers
                         return PartialView("GetMediaDetails", media);
                 }
 
-                return null;
-            }
+                return null;*/
+				InitSessionVariables();
+
+				int mediaId = (int)Session["CurrentMediaId"];
+				Media Media = DB.Medias.Get(mediaId);
+
+				if (DB.Users.HasChanged || DB.Medias.HasChanged || forceRefresh)
+				{
+					return PartialView(Media);
+				}
+
+				return null;
+			}
             catch (System.Exception ex)
             {
                 return Content("Erreur interne " + ex.Message, "text/html");
@@ -248,7 +256,7 @@ namespace Controllers
             {
                 Media Media = DB.Medias.Get(id);
 				User currentUser = Models.User.ConnectedUser;
-				if (Media.OwnerId != currentUser.Id)
+				if (Media.OwnerId != currentUser.Id && !currentUser.IsAdmin)
 				{
                     return Redirect("/Accounts/Login?message=Accès illégal!&success=false");
 				}
@@ -270,17 +278,16 @@ namespace Controllers
 
             // Make sure that the Media of id really exist
             Media storedMedia = DB.Medias.Get(id);
-			User currentUser = Models.User.ConnectedUser;
-			if (storedMedia.OwnerId != currentUser.Id)
-			{
-				return Redirect("/Accounts/Login?message=Accès illégal!&success=false");
-			}
 			if (storedMedia != null)
             {
                 Media.Id = id; // patch the Id
                 Media.PublishDate = storedMedia.PublishDate; // keep orignal PublishDate
-                Media.OwnerId = storedMedia.OwnerId;   
-                Media.Shared = SharedCB == "on";
+                Media.OwnerId = storedMedia.OwnerId;
+				if (Media.OwnerId != Models.User.ConnectedUser.Id && !Models.User.ConnectedUser.IsAdmin)
+				{
+					return Redirect("/Accounts/Login?message=Accès illégal!&success=false");
+				}
+				Media.Shared = SharedCB == "on";
                 DB.Medias.Update(Media);
             }
             return RedirectToAction("Details/" + id);
@@ -293,7 +300,7 @@ namespace Controllers
             {
 				Media Media = DB.Medias.Get(id);
 				User currentUser = Models.User.ConnectedUser;
-				if (Media.OwnerId != currentUser.Id)
+				if (Media.OwnerId != currentUser.Id && !currentUser.IsAdmin)
 				{
 					return Redirect("/Accounts/Login?message=Accès illégal!&success=false");
 				}

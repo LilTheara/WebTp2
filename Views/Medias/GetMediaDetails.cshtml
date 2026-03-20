@@ -2,26 +2,35 @@
 
 <div class="detailsPanel">
 	<dl>
-		<dd>@if (Model.Shared) { 
-			<span style="color:grey">[Partagé]</span>
-		}</dd>
+		@if (!Model.Shared && (!Models.User.ConnectedUser.IsAdmin || Model.OwnerId != Models.User.ConnectedUser.Id))
+		{
+			<dd>
+				<span style="color:red">Cette vidéo n'est pas partagé...</span>
+			</dd>
+		}
+		else
+		{
+			<dd>
+				@if (Model.Shared && (Model.OwnerId == Models.User.ConnectedUser.Id || Models.User.ConnectedUser.IsAdmin))
+				{
+					<span style="color:grey">[Partagé]</span>
+				}
+			</dd>
 
-		<dd>@Model.Title</dd>
-		<dd>@Helper.YoutubePlayer(Model.YoutubeId)</dd>
-		<dd class="description">@Model.Description</dd>
+			<dd>@Model.Title</dd>
+			<dd>@Helper.YoutubePlayer(Model.YoutubeId)</dd>
+			<dd class="description">@Model.Description</dd>
 
-		<dt>Catégorie</dt>
-		<dd>@Model.Category</dd>
+			<dt>Catégorie</dt>
+			<dd>@Model.Category</dd>
 
-		<dt>Date de publication</dt>
-		<dd>@Helper.When(Model.PublishDate)</dd>
+			<dt>Date de publication</dt>
+			<dd>@Helper.When(Model.PublishDate)</dd>
 
-		<dt>Propriétaire</dt>
-		<dd class="owner">
-			<div class="userItem">
-				@Helper.Image(Model.Owner.Avatar, "UserMediumAvatar")
-				<div class="ellipsis">@Model.Owner.Name</div>
-			</div>
-		</dd>
+			<dt>Propriétaire</dt>
+			<dd class="owner">
+				@Helper.AvatarUser(Model.Owner)
+			</dd>
+		}
 	</dl>
 </div>
