@@ -2,7 +2,7 @@
 
 <div class="detailsPanel">
 	<dl>
-		@if (!Model.Shared && (!Models.User.ConnectedUser.IsAdmin || Model.OwnerId != Models.User.ConnectedUser.Id))
+		@if (!Model.Shared && !Models.User.ConnectedUser.IsAdmin && Model.OwnerId != Models.User.ConnectedUser.Id)
 		{
 			<dd>
 				<span style="color:red">Cette vidéo n'est pas partagé...</span>

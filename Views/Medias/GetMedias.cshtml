@@ -4,7 +4,7 @@
 {
 	foreach (var media in Model)
 	{
-		if (media.Shared || media.OwnerId == Models.User.ConnectedUser.Id)
+		if (media.Shared || media.OwnerId == Models.User.ConnectedUser.Id || Models.User.ConnectedUser.IsAdmin)
 		{
 			
 			<div class="mediaLayout">

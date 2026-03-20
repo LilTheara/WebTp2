@@ -1,4 +1,5 @@
 ﻿@model Models.Media
+@{string sharedvalue = Model.Shared ? "checked" : "";}
 
 <form class="form" action="/Medias/@ViewBag.Action" method="POST">
     @Html.AntiForgeryToken() <!-- Injection de jeton anti contrefaçon de formulaire -->
@@ -60,8 +61,8 @@
         <input type="checkbox"
                id="SharedCB"
                name="SharedCB"
-               value="on"
-               @(Model.Shared ? "checked" : "") />
+               @sharedvalue
+                />
         <span>Cette vidéo est partagée</span>
     </div>
 </form>
