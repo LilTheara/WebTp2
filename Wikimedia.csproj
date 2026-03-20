@@ -140,12 +140,6 @@
     <Compile Include="WebServices\GeoLocation.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Assets\Users\13070465-e361-4d69-9073-06ebeb3c64ad.jpeg" />
-    <Content Include="App_Assets\Users\3b8cc315-9869-4eeb-acb0-9f539b33758a.jpeg" />
-    <Content Include="App_Assets\Users\67e02a94-2b82-4d76-8396-9cac4db7308d.png" />
-    <Content Include="App_Assets\Users\9c76092a-8f8f-49db-b713-613847698b9f.jpeg" />
-    <Content Include="App_Assets\Users\c37ae1b4-fd99-4a91-9cee-22bd21a26994.jpeg" />
-    <Content Include="App_Assets\Users\no_avatar.png" />
     <Content Include="Content\Accounts.css" />
     <Content Include="Content\details.css" />
     <Content Include="Content\Icons.css" />
