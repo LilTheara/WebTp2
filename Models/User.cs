@@ -23,6 +23,14 @@ namespace Models
             Verified = false;
             Notify = true;
         }
+        public void SetNew()
+        {
+            Id = 0;
+            Blocked = false;
+            Access = Access.View;
+            Online = false;
+            Verified = false;
+        }
         #region Data Members
         public string Name { get; set; }
         public string Email { get; set; }
@@ -39,6 +47,14 @@ namespace Models
         public string Avatar { get; set; } = Avatars_Folder + Default_Avatar;
 
         #endregion
+        public override bool IsValid()
+        {
+            if (DB.Users.ToList().Where(u => u.Email == Email && u.Id != Id).Any()) return false;
+            if (!IsAlpha(Name)) return false;
+            if (!IsEmail(Email)) return false;
+            if (!HasRequiredLength(Password, 6)) return false;
+            return true;
+        }
 
         #region View members
         [JsonIgnore]
@@ -47,17 +63,17 @@ namespace Models
             // maintain in server cache a list of online users Id
             get
             {
-                return User.GetOnlineUser().IndexOf(this.Id) > -1;
+                return User.GetOnlineUsers().IndexOf(this.Id) > -1;
             }
             set
             {
                 if (value)
                 {
-                    if (User.GetOnlineUser().IndexOf(this.Id) == -1)
-                        User.GetOnlineUser().Add(this.Id);
+                    if (User.GetOnlineUsers().IndexOf(this.Id) == -1)
+                        User.GetOnlineUsers().Add(this.Id);
                 }
                 else
-                    User.GetOnlineUser().Remove(this.Id);
+                    User.GetOnlineUsers().Remove(this.Id);
             }
         }
         [JsonIgnore]
@@ -81,7 +97,7 @@ namespace Models
             }
         }
 
-        private static List<int> GetOnlineUser()
+        public static List<int> GetOnlineUsers()
         {
             if (HttpRuntime.Cache["onlineUsers"] == null)
                 HttpRuntime.Cache["onlineUsers"] = new List<int>();
@@ -94,7 +110,7 @@ namespace Models
             {
                 if (HttpContext.Current?.Session["ConnectedUser"] != null)
                 {
-                    if (DB.Users.HasChanged)
+                    if (DB.Users.IsMarkedChanged)
                     {
                         User connectedUser = ((User)HttpContext.Current.Session["ConnectedUser"]);
                         if (connectedUser != null)

@@ -1,18 +1,26 @@
 .cmdIcon {
     font-size: 1.5rem;
     color: rgb(0, 87, 204);
-    margin-right: 4px;
+    margin-right: 8px;
     cursor: pointer;
     text-decoration: none;
-}
 
-    .cmdIcon:hover {
+    &:hover {
         color: rgb(103, 165, 247);
     }
+}
 
 .cmdIconSmall {
-    font-size: 1.2rem;
-}
+    font-size: 1rem;
+    color: #aaa;
+    margin-left: 8px;
+    cursor: pointer;
+    text-decoration: none;
+
+    &:hover {
+        color: rgb(103, 165, 247);
+    }
+} 
 
 .menuIcon {
     font-size: 1.2rem;
@@ -24,16 +32,18 @@
     display: grid;
     grid-template-columns: 3em auto 30px;
     align-items: center;
-}
 
-    .headerMenu a {
+    & a {
         text-decoration: none;
     }
+}
+
+    
 
 .pageTitle {
     font-size: 1.5em;
     text-align: left;
-    font-weight: bold;
+    font-weight:bold;
 }
 
 .menu {
@@ -57,76 +67,13 @@
     display: grid !important;
     grid-template-columns: 40px auto !important;
     align-items: center;
-    cursor: pointer;
+    cursor:pointer;
 }
 
-.searchBar {
+.flex {
     display: flex;
     gap: 6px;
 }
-
-.searchBarItem {
-    width: 33%;
-}
-
-.mediaListLayout {
-    display: grid;
-    grid-template-columns: 33% 33% 33%;
-    gap: 6px !important;
-}
-
-    .mediaListLayout a {
-        text-decoration: none;
-        cursor: pointer;
-        color: black;
-    }
-
-        .mediaListLayout a:hover {
-            background-color: aliceblue;
-        }
-
-@media screen and (max-width: 800px) {
-    .mediaListLayout {
-        grid-template-columns: 49.75% 49.75%;
-    }
-}
-
-@media screen and (max-width: 550px) {
-    .mediaListLayout {
-        grid-template-columns: 100%;
-    }
-}
-
-.mediaLayout {
-    border: 0.1px solid #ccc;
-    border-radius: 5px;
-
-    &:hover {
-        box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-    }
-}
-
-.mediaThumbnail {
-    width: 100% !important;
-    aspect-ratio: 16/9;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-    border-bottom: 0.1px solid #ccc;
-    background-size: cover;
-    background-position: center;
-}
-
-.mediaThumbnailBig {
-    width: 100% !important;
-    aspect-ratio: 16/9;
-    border-radius: 6px;
-}
-
-.mediaPlayerBig {
-    aspect-ratio: 16/9;
-    width: 100% !important;
-}
-
-.description {
-    font-size: 1em !important;
+.flexItem {
+    flex:1;
 }

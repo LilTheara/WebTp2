@@ -42,9 +42,8 @@ namespace Controllers
             {
                 if (success) DB.Events.Add("Logout"); else DB.Events.Add("Expired/blocked");
                 if (Models.User.ConnectedUser != null)
-					//DB.Logins.UpdateLogout(Models.User.ConnectedUser.Id);
-					DB.Logins.UpdateLogoutByUserId(Models.User.ConnectedUser.Id);
-				Models.User.ConnectedUser.Online = false;
+                    DB.Logins.UpdateLogoutByUserId(Models.User.ConnectedUser.Id);
+                Models.User.ConnectedUser.Online = false;
                 Models.User.ConnectedUser = null;
             }
 
@@ -94,6 +93,7 @@ namespace Controllers
             }
             Models.User.ConnectedUser = loginUser;
             loginUser.Online = true;
+            DB.Logins.Add(Models.User.ConnectedUser.Id);
             DB.Events.Add("Login");
             return Redirect(RouteConfig.DefaultAction());
         }
@@ -105,12 +105,22 @@ namespace Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken()]
-        public ActionResult Subscribe(User user)
+        public ActionResult Subscribe(User user, string NotifyCB = "off")
         {
-            DB.Users.Add(user);
-            DB.Events.Add("Subscribe");
-            AccountsEmailing.SendEmailVerification(Url.Action("VerifyUser", "Accounts", null, Request.Url.Scheme), user);
-            return Redirect("/Accounts/Login?message=Création de compte effectuée avec succès! Un courriel de confirmation d'adresse vous a été envoyé.");
+            user.SetNew();
+            user.Notify = NotifyCB == "on";
+
+            if (user.IsValid())
+            {
+                Models.User.ConnectedUser = user;
+                DB.Users.Add(user);
+                Models.User.ConnectedUser = null;
+                DB.Events.Add("Subscribe");
+                AccountsEmailing.SendEmailVerification(Url.Action("VerifyUser", "Accounts", null, Request.Url.Scheme), user);
+                return Redirect("/Accounts/Login?message=Création de compte effectuée avec succès! Un courriel de confirmation d'adresse vous a été envoyé.");
+            }
+            DB.Events.Add("illegal subscribe");
+            return Redirect("/Accounts/Login?message=La création de compte a échouée!&success=false");
         }
         public ActionResult VerifyUser(string code)
         {
@@ -206,7 +216,7 @@ namespace Controllers
             }
             return Redirect("/Accounts/Login?message=Erreur de modification de courriel!&success=false");
         }
-        [UserAccess]
+        [UserAccess(Models.Access.View)]
         public ActionResult EditProfil()
         {
             User connectedUser = Models.User.ConnectedUser;
@@ -218,7 +228,7 @@ namespace Controllers
             return Redirect(RouteConfig.DefaultAction());
         }
 
-        [UserAccess]
+        [UserAccess(Models.Access.View)]
         [HttpPost]
         [ValidateAntiForgeryToken()]
         public ActionResult EditProfil(User user, string NotifyCB = "off")
@@ -229,34 +239,47 @@ namespace Controllers
                 nothing in playload if not checked
                 "on" if checked 
             */
+            user.Notify = NotifyCB == "on";
 
             DB.Events.Add("EditProfil");
+
             bool newEmail = false;
+
             User connectedUser = Models.User.ConnectedUser;
+
+            // Restore non editable fields from connected user
             user.Id = connectedUser.Id;
             user.Blocked = connectedUser.Blocked;
             user.Access = connectedUser.Access;
             user.Verified = connectedUser.Verified;
-            user.Notify = NotifyCB == "on";
+
             // check password has been changed 
             if (user.Password == (string)Session["CurrentEditingUserPassword"])
+            {
                 user.Password = connectedUser.Password; // no password change
-            // check if Email has been changed
-            if (user.Email != connectedUser.Email)
-            {
-                newEmail = true;
-                AccountsEmailing.SendEmailChangedVerification(Url.Action("VerifyNewEmail", "Accounts", null, Request.Url.Scheme), user);
-                user.Email = connectedUser.Email; // new Email will commited on verification
             }
-            if (DB.Users.Update(user))
+            if (user.IsValid())
             {
-                Models.User.ConnectedUser = DB.Users.Get(user.Id);
-                DB.Notifications.Push(user.Id, "Votre profil a été modifié avec succès!");
+                // check if Email has been changed
+                if (user.Email != connectedUser.Email)
+                {
+                    newEmail = true;
+                    AccountsEmailing.SendEmailChangedVerification(Url.Action("VerifyNewEmail", "Accounts", null, Request.Url.Scheme), user);
+                    user.Email = connectedUser.Email; // new Email will commited on verification
+                }
+                if (DB.Users.Update(user))
+                {
+                    Models.User.ConnectedUser = DB.Users.Get(user.Id);
+                    DB.Notifications.Push(user.Id, "Votre profil a été modifié avec succès!");
+                }
+
+                if (newEmail)
+                    return Redirect("/Accounts/Login?message=Un courriel de vérification d'adresse de courriel vous a été envoyé!");
+                else
+                    return Redirect(RouteConfig.DefaultAction());
             }
-            if (newEmail)
-                return Redirect("/Accounts/Login?message=Un courriel de vérification d'adresse de courriel vous a été envoyé!");
-            else
-                return Redirect(RouteConfig.DefaultAction());
+            DB.Events.Add("Illegal EditProfil");
+            return Redirect("/Accounts/Login?message=Erreur de modification de compte!&success=false");
         }
         [UserAccess(Models.Access.View)]
         public ActionResult DeleteProfil()

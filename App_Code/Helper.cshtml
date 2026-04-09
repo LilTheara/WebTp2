@@ -1,11 +1,4 @@
-﻿@helper AvatarUser(Models.User user, string avatarClass = "UserMediumAvatar")
-{
-    var avatarUrl = user.Avatar;
-    <div class="userItem">
-        <div class="@avatarClass" style="background: url(@user.Avatar)"></div>
-        <div class="ellipsis">@user.Name</div>
-    </div>
-}@helper ImageLink(string controller, string action, string imageUrl, string imageClass, string title)
+﻿@helper ImageLink(string controller, string action, string imageUrl, string imageClass, string title)
 {
     var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
     <a href="@Url.Action(action, controller)">
@@ -161,6 +154,14 @@
              style="background: url(@avatar)"></div>
     </a>
 }
+@helper AvatarUser(Models.User user, string avatarClass = "UserMediumAvatar")
+{
+    var avatarUrl = user.Avatar;
+    <div class="userItem">
+        <div class="@avatarClass" style="background: url(@user.Avatar)"></div>
+        <div class="ellipsis">@user.Name</div>
+    </div>
+}
 @helper UsersCheckList(IEnumerable<Models.User> users, List<int> selectedUsers, string usersCheckListName = "UsersCheckList")
 {
     var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
@@ -269,13 +270,11 @@
                         {
                             youtubeId = youtubeId.Substring(0, youtubeId.IndexOf("&"));
                         }
+                        string youtubeThumbnail = "https://i3.ytimg.com/vi/" + youtubeId + "/maxresdefault.jpg";
                         <br />
-                        <iframe class="mediaPlayerBig"
-                                src="https://www.youtube.com/embed/@youtubeId"
-                                frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen>
-                        </iframe>                     
+                        <a href="@token" target="_blank">
+                            <img class="contentImage" src="@youtubeThumbnail" alt="" />
+                        </a>
                         <br />
                     }
                     else
@@ -351,7 +350,6 @@
         }
     }
 }
-
 @helper YoutubePlayer(string youtubeId, string yt_class = "mediaPalyerBig")
 {
     <iframe class="mediaPlayerBig"

@@ -59,3 +59,8 @@
 .description {
     font-size: 1em !important;
 }
+
+.highlight {
+    background-color: yellow;
+}
+  

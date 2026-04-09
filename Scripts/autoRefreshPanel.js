@@ -17,12 +17,15 @@ class AutoRefreshedPanel {
         this.contentServiceURL = contentServiceURL;
         this.panelId = panelId;
         this.postRefreshCallback = postRefreshCallback;
-
+        this.previousScrollPosition = 0;
         if (refreshRate != -1) { // will be refreshed manually
             this.refresh(true);
             this.refreshRate = refreshRate * 1000; /* convert in miliseconds */
             this.paused = false;
-            setInterval(() => { this.refresh() }, this.refreshRate);
+            setInterval(() => {
+                $("#updatingView").show();
+                this.refresh();
+            }, this.refreshRate);
         }
         $("#updatingView").hide();
     }
@@ -32,11 +35,29 @@ class AutoRefreshedPanel {
     restart() {
         this.paused = false
     }
+    storeScrollPosition() {
+        this.previousScrollPosition = $("#mainContentPanel").scrollTop();
+    }
+    restoreScrollPosition() {
+        $("#mainContentPanel").scrollTop(this.previousScrollPosition);
+    }
     replaceContent(htmlContent) {
         if (htmlContent !== "") {
+            this.storeScrollPosition();
             $("#" + this.panelId).html(htmlContent);
+            this.restoreScrollPosition();
             console.log(`Panel ${this.panelId} has been refreshed.`);
             if (this.postRefreshCallback != null) this.postRefreshCallback();
+        }
+    }
+    appendContent(htmlContent) {
+        if (htmlContent !== "") {
+            this.storeScrollPosition();
+            $("#" + this.panelId).append(htmlContent);
+            this.restoreScrollPosition();
+            console.log(`Panel ${this.panelId} has been appended.`);
+            if (this.postRefreshCallback != null) this.postRefreshCallback(false);
+
         }
     }
     redirect() {
@@ -48,7 +69,6 @@ class AutoRefreshedPanel {
     }
     refresh(forced = false) {
         if (!this.paused) {
-            $("#updatingView").show();
             $.ajax({
                 url: this.contentServiceURL + (forced ? (this.contentServiceURL.indexOf("?") > -1 ? "&" : "?") + "forceRefresh=true" : ""),
                 dataType: "html",
