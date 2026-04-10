@@ -194,7 +194,6 @@ public class MediasController : Controller
     }
     public ActionResult GetMedias(bool forceRefresh = false)
     {
-        {
             try
             {
                 if (DB.Users.HasChanged ||
@@ -215,7 +214,6 @@ public class MediasController : Controller
                 return Content("Erreur interne" + ex.Message, "text/html");
             }
         }
-    }
     public ActionResult List()
     {
         ResetCurrentMediaInfo();
