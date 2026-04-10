@@ -15,6 +15,7 @@
             newSession(600);
             mediaDetails_ARP = new AutoRefreshedPanel("detailsPanel", "/Medias/GetMediaDetails", 5, mediaDetailsPostRefresh);
             sessionStorage.setItem("RestoreScrollPosition", "1");
+            Likes_ARPanel = new AutoRefreshedPanel("LikesPanel", "/Medias/RefreshLikeHeader/@Model.Id", 5);
         })
 
 		/*function refreshLikeHeader(mediaId) {

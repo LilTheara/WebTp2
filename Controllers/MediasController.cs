@@ -195,6 +195,7 @@ public class MediasController : Controller
             {
                 if (DB.Users.HasChanged ||
                     DB.Medias.HasChanged ||
+                    DB.Likes.HasChanged ||
                     forceRefresh)
                 {
                     InitSessionVariables();

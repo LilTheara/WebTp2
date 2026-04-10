@@ -9,5 +9,5 @@
 		@likes.Count()
 	</span>
 	<i style="color: dodgerblue;" class="cmdIcon @(isLiked ? "fa" : "fa-regular") fa-thumbs-up toggleLikeCmd" mediaid="@mediaId"
-	onclick="$.command('/Medias/ToggleMediaLike/@mediaId')"></i>
+	onclick="$.get('/Medias/ToggleMediaLike/@mediaId').done(() => Likes_ARPanel.refresh(true))"></i>
 </div>
