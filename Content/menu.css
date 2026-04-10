@@ -12,14 +12,6 @@
 
 .cmdIconSmall {
     font-size: 1.2rem;
-    color: #aaa;
-    margin-left: 8px;
-    cursor: pointer;
-    text-decoration: none;
-
-    &:hover {
-        color: rgb(103, 165, 247);
-    }
 } 
 
 .menuIcon {
