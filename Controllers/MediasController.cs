@@ -223,7 +223,30 @@ public class MediasController : Controller
         Session["Search"] = !(bool)Session["Search"];
         return RedirectToAction("List");
     }
-    public ActionResult SetMediaSortBy(MediaSortBy mediaSortBy)
+    public void ToggleMediaLike(int id)
+    {
+		int userId = Models.User.ConnectedUser.Id;
+		Like exist = DB.Likes.ToList()
+		    .FirstOrDefault(l => l.MediaId == id && l.OwnerId == userId);   //prend le premier qui "match" sinon null
+		if (exist != null)
+		{
+			DB.Likes.Delete(exist.Id);
+		}
+		else
+		{
+			DB.Likes.Add(new Like
+			{
+				MediaId = id,
+				OwnerId = userId
+			});
+		}
+	}
+	public ActionResult RefreshLikeHeader(int id)
+	{
+		Session["CurrentMediaId"] = id;
+		return PartialView("HeaderLikes");
+	}
+	public ActionResult SetMediaSortBy(MediaSortBy mediaSortBy)
     {      // /Medias/SetMediasSortBy?mediaSortBy= 
         ResetMediasPaging();
         Session["MediaSortBy"] = mediaSortBy;

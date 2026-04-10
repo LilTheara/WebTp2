@@ -125,6 +125,8 @@
     <Compile Include="Models\EmailView.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\EventsRepository.cs" />
+    <Compile Include="Models\Like.cs" />
+    <Compile Include="Models\LikesRepository.cs" />
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\LoginCredential.cs" />
     <Compile Include="Models\LoginsRepository.cs" />
@@ -135,8 +137,6 @@
     <Compile Include="Models\RenewPasswordView.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UsersRepository.cs" />
-    <Compile Include="obj\Debug\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
-    <Compile Include="obj\Release\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebServices\Countries.cs" />
     <Compile Include="WebServices\GeoLocation.cs" />
@@ -184,6 +184,7 @@
     <Content Include="bin\System.Web.WebPages.Razor.xml" />
     <Content Include="bin\System.Web.WebPages.xml" />
     <Content Include="bin\WebApplication.dll" />
+    <Content Include="bin\WebApplication.dll.config" />
     <Content Include="bin\WebApplication.pdb" />
     <Content Include="bin\WebGrease.dll" />
     <Content Include="Content\Accounts.css" />
@@ -210,108 +211,6 @@
     <Content Include="Content\ui-images\timeout.png" />
     <Content Include="Content\ui-images\user.png" />
     <Content Include="Content\_layout.css" />
-    <Content Include="obj\Release\CSAutoParameterize.parameters.xml" />
-    <Content Include="obj\Release\CSAutoParameterize\original\Views\Web.config" />
-    <Content Include="obj\Release\CSAutoParameterize\original\Web.config" />
-    <Content Include="obj\Release\CSAutoParameterize\transformed\Views\Web.config" />
-    <Content Include="obj\Release\CSAutoParameterize\transformed\Web.config" />
-    <Content Include="obj\Release\DesignTimeResolveAssemblyReferencesInput.cache" />
-    <Content Include="obj\Release\Package\PackageTmp\App_Code\Helper.cshtml" />
-    <Content Include="obj\Release\Package\PackageTmp\bin\Antlr3.Runtime.dll" />
-    <Content Include="obj\Release\Package\PackageTmp\bin\Antlr3.Runtime.pdb" />
-    <Content Include="obj\Release\Package\PackageTmp\bin\fr\System.Web.Helpers.resources.dll" />
-    <Content Include="obj\Release\Package\PackageTmp\bin\fr\System.Web.Mvc.resources.dll" />
-    <Content Include="obj\Release\Package\PackageTmp\bin\fr\System.Web.Optimization.resources.dll" />
-    <Content Include="obj\Release\Package\PackageTmp\bin\fr\System.Web.Razor.resources.dll" />
-    <Content Include="obj\Release\Package\PackageTmp\bin\fr\System.Web.WebPages.Deployment.resources.dll" />
-    <Content Include="obj\Release\Package\PackageTmp\bin\fr\System.Web.WebPages.Razor.resources.dll" />
-    <Content Include="obj\Release\Package\PackageTmp\bin\fr\System.Web.WebPages.resources.dll" />
-    <Content Include="obj\Release\Package\PackageTmp\bin\Microsoft.Web.Infrastructure.dll" />
-    <Content Include="obj\Release\Package\PackageTmp\bin\Newtonsoft.Json.dll" />
-    <Content Include="obj\Release\Package\PackageTmp\bin\System.Web.Helpers.dll" />
-    <Content Include="obj\Release\Package\PackageTmp\bin\System.Web.Mvc.dll" />
-    <Content Include="obj\Release\Package\PackageTmp\bin\System.Web.Optimization.dll" />
-    <Content Include="obj\Release\Package\PackageTmp\bin\System.Web.Razor.dll" />
-    <Content Include="obj\Release\Package\PackageTmp\bin\System.Web.WebPages.Deployment.dll" />
-    <Content Include="obj\Release\Package\PackageTmp\bin\System.Web.WebPages.dll" />
-    <Content Include="obj\Release\Package\PackageTmp\bin\System.Web.WebPages.Razor.dll" />
-    <Content Include="obj\Release\Package\PackageTmp\bin\WebApplication.dll" />
-    <Content Include="obj\Release\Package\PackageTmp\bin\WebApplication.pdb" />
-    <Content Include="obj\Release\Package\PackageTmp\bin\WebGrease.dll" />
-    <Content Include="obj\Release\Package\PackageTmp\Content\Accounts.css" />
-    <Content Include="obj\Release\Package\PackageTmp\Content\details.css" />
-    <Content Include="obj\Release\Package\PackageTmp\Content\Icons.css" />
-    <Content Include="obj\Release\Package\PackageTmp\Content\image-control.css" />
-    <Content Include="obj\Release\Package\PackageTmp\Content\jqui-custom-datepicker.css" />
-    <Content Include="obj\Release\Package\PackageTmp\Content\media.css" />
-    <Content Include="obj\Release\Package\PackageTmp\Content\menu.css" />
-    <Content Include="obj\Release\Package\PackageTmp\Content\popup.css" />
-    <Content Include="obj\Release\Package\PackageTmp\Content\Selections.css" />
-    <Content Include="obj\Release\Package\PackageTmp\Content\site.css" />
-    <Content Include="obj\Release\Package\PackageTmp\Content\ui-images\Abort.png" />
-    <Content Include="obj\Release\Package\PackageTmp\Content\ui-images\Accept.png" />
-    <Content Include="obj\Release\Package\PackageTmp\Content\ui-images\admin.png" />
-    <Content Include="obj\Release\Package\PackageTmp\Content\ui-images\Loading_icon.gif" />
-    <Content Include="obj\Release\Package\PackageTmp\Content\ui-images\Masked.png" />
-    <Content Include="obj\Release\Package\PackageTmp\Content\ui-images\na.png" />
-    <Content Include="obj\Release\Package\PackageTmp\Content\ui-images\OffLine.png" />
-    <Content Include="obj\Release\Package\PackageTmp\Content\ui-images\OnLine.png" />
-    <Content Include="obj\Release\Package\PackageTmp\Content\ui-images\PhotoCloudLogo.png" />
-    <Content Include="obj\Release\Package\PackageTmp\Content\ui-images\power_user.png" />
-    <Content Include="obj\Release\Package\PackageTmp\Content\ui-images\shared.png" />
-    <Content Include="obj\Release\Package\PackageTmp\Content\ui-images\timeout.png" />
-    <Content Include="obj\Release\Package\PackageTmp\Content\ui-images\user.png" />
-    <Content Include="obj\Release\Package\PackageTmp\Content\_layout.css" />
-    <Content Include="obj\Release\Package\PackageTmp\favicon.ico" />
-    <Content Include="obj\Release\Package\PackageTmp\Global.asax" />
-    <Content Include="obj\Release\Package\PackageTmp\Scripts\autoRefreshPanel.js" />
-    <Content Include="obj\Release\Package\PackageTmp\Scripts\bootbox.js" />
-    <Content Include="obj\Release\Package\PackageTmp\Scripts\image-control.js" />
-    <Content Include="obj\Release\Package\PackageTmp\Scripts\jquery-maskedinput.js" />
-    <Content Include="obj\Release\Package\PackageTmp\Scripts\selections.js" />
-    <Content Include="obj\Release\Package\PackageTmp\Scripts\session.js" />
-    <Content Include="obj\Release\Package\PackageTmp\Scripts\SiteNotificationsHandler.js" />
-    <Content Include="obj\Release\Package\PackageTmp\Scripts\SiteScripts.js" />
-    <Content Include="obj\Release\Package\PackageTmp\Scripts\validation.js" />
-    <Content Include="obj\Release\Package\PackageTmp\updatingView.gif" />
-    <Content Include="obj\Release\Package\PackageTmp\Views\Accounts\EditProfil.cshtml" />
-    <Content Include="obj\Release\Package\PackageTmp\Views\Accounts\EventsJournal.cshtml" />
-    <Content Include="obj\Release\Package\PackageTmp\Views\Accounts\GetEventsList.cshtml" />
-    <Content Include="obj\Release\Package\PackageTmp\Views\Accounts\GetLoginsList.cshtml" />
-    <Content Include="obj\Release\Package\PackageTmp\Views\Accounts\GetUsers.cshtml" />
-    <Content Include="obj\Release\Package\PackageTmp\Views\Accounts\Login.cshtml" />
-    <Content Include="obj\Release\Package\PackageTmp\Views\Accounts\LoginsJournal.cshtml" />
-    <Content Include="obj\Release\Package\PackageTmp\Views\Accounts\ManageUsers.cshtml" />
-    <Content Include="obj\Release\Package\PackageTmp\Views\Accounts\ProfilForm.cshtml" />
-    <Content Include="obj\Release\Package\PackageTmp\Views\Accounts\RenewPassword.cshtml" />
-    <Content Include="obj\Release\Package\PackageTmp\Views\Accounts\RenewPasswordCommand.cshtml" />
-    <Content Include="obj\Release\Package\PackageTmp\Views\Accounts\Subscribe.cshtml" />
-    <Content Include="obj\Release\Package\PackageTmp\Views\Medias\About.cshtml" />
-    <Content Include="obj\Release\Package\PackageTmp\Views\Medias\Create.cshtml" />
-    <Content Include="obj\Release\Package\PackageTmp\Views\Medias\Details.cshtml" />
-    <Content Include="obj\Release\Package\PackageTmp\Views\Medias\Edit.cshtml" />
-    <Content Include="obj\Release\Package\PackageTmp\Views\Medias\GetMediaDetails.cshtml" />
-    <Content Include="obj\Release\Package\PackageTmp\Views\Medias\GetMedias.cshtml" />
-    <Content Include="obj\Release\Package\PackageTmp\Views\Medias\GetMediasCategoriesList.cshtml" />
-    <Content Include="obj\Release\Package\PackageTmp\Views\Medias\List.cshtml" />
-    <Content Include="obj\Release\Package\PackageTmp\Views\Medias\MediaForm.cshtml" />
-    <Content Include="obj\Release\Package\PackageTmp\Views\Shared\Error.cshtml" />
-    <Content Include="obj\Release\Package\PackageTmp\Views\Shared\_header.cshtml" />
-    <Content Include="obj\Release\Package\PackageTmp\Views\Shared\_Layout.cshtml" />
-    <Content Include="obj\Release\Package\PackageTmp\Views\Web.config" />
-    <Content Include="obj\Release\Package\PackageTmp\Views\_ViewStart.cshtml" />
-    <Content Include="obj\Release\Package\PackageTmp\Web.config" />
-    <Content Include="obj\Release\Package\PackageTmp\WebApp.png" />
-    <Content Include="obj\Release\Package\Wikimedia.SourceManifest.xml" />
-    <Content Include="obj\Release\TransformWebConfig\assist\Web.config" />
-    <Content Include="obj\Release\TransformWebConfig\original\Web.config" />
-    <Content Include="obj\Release\TransformWebConfig\transformed\Web.config" />
-    <Content Include="obj\Release\WebApplication.dll" />
-    <Content Include="obj\Release\WebApplication.pdb" />
-    <Content Include="obj\Release\Wikimedia.csproj.AssemblyReference.cache" />
-    <Content Include="obj\Release\Wikimedia.csproj.CoreCompileInputs.cache" />
-    <Content Include="obj\Release\Wikimedia.csproj.FileListAbsolute.txt" />
-    <Content Include="obj\Release\_WPPLastBuildInfo.txt" />
     <Content Include="packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll" />
     <Content Include="packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.pdb" />
     <Content Include="packages\Microsoft.AspNet.Mvc.5.3.0\lib\net45\fr\System.Web.Mvc.resources.dll" />
@@ -415,12 +314,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include=".github\workflows\" />
-    <Folder Include="obj\Release\ProfileTransformWebConfig\transformed\Views\" />
-    <Folder Include="obj\Release\TempPE\" />
-    <Folder Include="obj\Release\TransformWebConfig\transformed\Views\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bin\WebApplication.dll.config" />
     <None Include="packages.config" />
     <Content Include="Views\Shared\_header.cshtml" />
     <Content Include="Views\Medias\About.cshtml" />
@@ -475,6 +370,7 @@
     <Content Include="Views\Accounts\RenewPassword.cshtml" />
     <Content Include="Views\Accounts\RenewPasswordCommand.cshtml" />
     <Content Include="Views\Accounts\Subscribe.cshtml" />
+    <Content Include="Views\Medias\HeaderLikes.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

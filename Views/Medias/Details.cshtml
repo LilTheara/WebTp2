@@ -10,15 +10,24 @@
 </div>
 
 @section Scripts {
-    <script>
+	<script>
         $(() => {
             newSession(600);
             mediaDetails_ARP = new AutoRefreshedPanel("detailsPanel", "/Medias/GetMediaDetails", 5, mediaDetailsPostRefresh);
             sessionStorage.setItem("RestoreScrollPosition", "1");
         })
 
-        function mediaDetailsPostRefresh() {
-            // todo
+		/*function refreshLikeHeader(mediaId) {
+			$("#likeHeaderContainer").load("/Medias/RefreshLikeHeader/" + mediaId);
+		}*/
+        function mediaDetailsPostRefresh(fromRefresh = true) {
+            /*if (fromRefresh) {
+                $(document).off("click", ".toggleLikeCmd").on("click", ".toggleLikeCmd", function (e) {
+                    e.preventDefault();
+					mediaDetails_ARP.command("/Medias/ToggleMediaLike/" + $(this).attr("mediaid");
+					refreshLikeHeader($(this).attr("mediaid"));
+                });
+            }*/
             highlightKeyword();
         }
 
@@ -37,5 +46,5 @@
                 }
             }
         }
-    </script>
+	</script>
 }

@@ -1,0 +1,13 @@
+@{
+	int mediaId = (int)Session["CurrentMediaId"];
+	var user = Models.User.ConnectedUser;
+	var likes = Models.LikesRepository.GetMediaLikes(mediaId);
+	bool isLiked = user != null && likes.Any(u => u.Id == user.Id);
+}
+<div style="display: flex; justify-content: flex-end; gap: 5px; align-items: center; padding-right: 4px; cursor: pointer; color: dodgerblue">
+	<span title="Usagers qui ont aimé :@string.Join(",", likes.Select(u=>u.Name))">
+		@likes.Count()
+	</span>
+	<i style="color: dodgerblue;" class="cmdIcon @(isLiked ? "fa" : "fa-regular") fa-thumbs-up toggleLikeCmd" mediaid="@mediaId"
+	onclick="$.command('/Medias/ToggleMediaLike/@mediaId')"></i>
+</div>

@@ -1,44 +1,49 @@
-﻿using DAL;
-using Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Policy;
 using System.Web;
+using DAL;
+using Models;
+using Newtonsoft.Json;
 
 namespace EmailHandling
 {
-    public class UnverifiedEmail : Record
-    {
-        public void SetUser(User user = null)
-        {
-            if (user != null)
-            {
-                UserId = user.Id;
-                Email = user.Email;
-                VerificationCode = Guid.NewGuid().ToString();
-            }
-        }
-        public string Email { get; set; }
-        public string VerificationCode { get; set; }
-        public int UserId { get; set; }
-    }
+	public class UnverifiedEmail : Record
+	{
+		public void SetUser(User user = null)
+		{
+			if (user != null)
+			{
+				UserId = user.Id;
+				Email = user.Email;
+				VerificationCode = Guid.NewGuid().ToString();
+			}
+		}
+		public string Email { get; set; }
+		public string VerificationCode { get; set; }
+		public int UserId { get; set; }
+		[JsonIgnore]
+		public User User => DB.Users.Get(UserId);
+	}
 
-    public class RenewPasswordCommand : Record
-    {
-        public void SetUser(User user = null)
-        {
-            if (user != null)
-            {
-                UserId = user.Id;
-                VerificationCode = Guid.NewGuid().ToString();
-            }
-        }
-        public string VerificationCode { get; set; }
-        public int UserId { get; set; }
-    }
+	public class RenewPasswordCommand : Record
+	{
+		public void SetUser(User user = null)
+		{
+			if (user != null)
+			{
+				UserId = user.Id;
+				VerificationCode = Guid.NewGuid().ToString();
+			}
+		}
+		public string VerificationCode { get; set; }
+		public int UserId { get; set; }
+		[JsonIgnore]
+		public User User => DB.Users.Get(UserId);
+	}
 
-    public static class AccountsEmailing
+	public static class AccountsEmailing
     {
         const string ApplicationName = "Application Web";
 

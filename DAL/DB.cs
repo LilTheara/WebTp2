@@ -19,6 +19,8 @@ namespace DAL
         
         static public UsersRepository Users { get; set; }
             = new UsersRepository();
+        static public LikesRepository Likes { get; set; }
+            = new LikesRepository();
 
         static public NotificationsRepository Notifications { get; set; }
             = new NotificationsRepository();
