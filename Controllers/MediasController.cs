@@ -201,7 +201,7 @@ public class MediasController : Controller
         {
             IEnumerable<Media> result = null;
 
-            if (DB.Medias.HasChanged || forceRefresh)
+            if (DB.Medias.HasChanged || DB.Users.HasChanged || DB.Likes.HasChanged|| forceRefresh)
             {
                 InitSessionVariables();
 
