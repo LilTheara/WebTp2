@@ -31,7 +31,7 @@ form {
 fieldset {
     border: 1px solid #ddd !important;
     border-radius: 6px !important;
-    padding: 6px !important;
+    padding: 8px !important;
     padding-top: 16px !important;
     display: flex;
     flex-direction: column;
