@@ -44,17 +44,6 @@
 		"Id": 7
 	},
 	{
-		"Name": "Burak",
-		"Email": "caferburak2555@gmail.com",
-		"Password": "mqpMJtbrXRNeiOTYY65I61ucsZm1FrogrlX7cWOyEhQ=GeDLQ9aNkHLNSkUgNWHb7GbhLTo=",
-		"Access": 2,
-		"Blocked": false,
-		"Verified": true,
-		"Notify": true,
-		"Avatar": "/App_Assets/Users/no_avatar.png",
-		"Id": 8
-	},
-	{
 		"Name": "Sena",
 		"Email": "zeynepsenayarar@gmail.com",
 		"Password": "jL1OM2lIk9FqRmC9dKmxs+GtKY2ZMKLPE5JFxTGaFQg=QrRHdHuzrqbsK1huN6uUeRuPmaM=",

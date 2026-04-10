@@ -284,10 +284,24 @@ namespace Controllers
         [UserAccess(Models.Access.View)]
         public ActionResult DeleteProfil()
         {
-            DB.Events.Add("DeleteProfil");
             User connectedUser = Models.User.ConnectedUser;
-            DB.Users.Delete(connectedUser.Id);
-            return RedirectToAction("Login?message=Votre compte a été effacé avec succès!");
+            int userId = connectedUser.Id;
+
+            var medias = DB.Medias.ToList().Where(m => m.OwnerId == userId).ToList();
+
+            foreach (var media in medias)
+            {
+                DB.Likes.DeleteByMediaId(media.Id);
+                DB.Medias.Delete(media.Id);
+            }
+
+            DB.Likes.DeleteByUserId(userId);
+            DB.Users.Delete(userId);
+
+            Models.User.ConnectedUser = null;
+            Session["CurrentLoginEmail"] = "";
+
+            return RedirectToAction("Login");
         }
 
         [UserAccess(Access.Write)]
@@ -374,16 +388,23 @@ namespace Controllers
         [UserAccess(Access.Admin)]
         public ActionResult DeleteUser(int id)
         {
-
             if (id != 1)
             {
                 User user = DB.Users.Get(id);
                 if (user != null)
                 {
                     DB.Events.Add("DeleteUser " + user.Name);
-                    string message = "Votre compte a été effacé par l'administrateur du site.";
+
+                    var medias = DB.Medias.ToList().Where(m => m.OwnerId == id).ToList();
+
+                    foreach (var media in medias)
+                    {
+                        DB.Likes.DeleteByMediaId(media.Id);
+                        DB.Medias.Delete(media.Id);
+                    }
+
+                    DB.Likes.DeleteByUserId(id);
                     DB.Users.Delete(id);
-                    AccountsEmailing.SendEmailUserStatusChanged(message, user);
                 }
             }
             return null;
