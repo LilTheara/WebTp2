@@ -74,7 +74,9 @@ public class MediasController : Controller
                         result = result.OrderBy(c => c.Title); break;
                     case MediaSortBy.PublishDate:
                         result = result.OrderBy(c => c.PublishDate); break;
-                }
+					case MediaSortBy.Likes:
+						result = result.OrderBy(c => DB.Likes.ToList().Count(l=>l.MediaId == c.Id)); break;
+				}
             }
             else
             {
@@ -84,7 +86,9 @@ public class MediasController : Controller
                         result = result.OrderByDescending(c => c.Title); break;
                     case MediaSortBy.PublishDate:
                         result = result.OrderByDescending(c => c.PublishDate); break;
-                }
+					case MediaSortBy.Likes:
+						result = result.OrderByDescending(c => DB.Likes.ToList().Count(l => l.MediaId == c.Id)); break;
+				}
             }
             if (result.Count() < nbItems + index)
             {

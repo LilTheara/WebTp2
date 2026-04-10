@@ -36,7 +36,7 @@
 					</div>
 					<div style="display: flex; justify-content: flex-end; gap: 5px; align-items: center; padding-right: 4px; cursor: pointer; color: dodgerblue">
 						<span title="Usagers qui ont aimé :@string.Join(",", likes.Select(u=>u.Name))">
-							  @likes.Count()
+							@likes.Count()
 						</span>
 						<i style="color: dodgerblue;" class="cmdIconSmall @(isLiked ? "fa" : "fa-regular") fa-thumbs-up toggleLikeCmd" mediaid="@media.Id"></i>
 					</div>
