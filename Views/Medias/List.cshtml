@@ -12,6 +12,7 @@
 
         let mediasListAutoRefreshPanel = null;
         let categoriesSelectAutoRefreshPanel = null;
+        let ownersSelectAutoRefreshPanel = null;
         let loadMoreTriggerMargin = 10;
         let pauseScrollEvent = false;
 
@@ -32,6 +33,12 @@
                     "/Medias/GetMediasCategoriesList",
                     -1 /* manually refreshed */,
                     categoriesSelectPostRefresh);
+            ownersSelectAutoRefreshPanel =
+                new AutoRefreshedPanel(
+                    "ownerSelectPanel",
+                    "/Medias/GetOwnersList",
+                    -1,
+                    ownersSelectPostRefresh);
 
             let keywordsOnchangeTimer = null;
             let resizeTimer = null;
@@ -102,6 +109,7 @@
             function mediasListPostRefresh(fromRefresh = true) {
                 if (fromRefresh) {
                     categoriesSelectAutoRefreshPanel.refresh(true);
+                    ownersSelectAutoRefreshPanel.refresh(true);
                     $(".toggleLikeCmd").off();
                     $(".toggleLikeCmd").click(function (e) {
                         mediasListAutoRefreshPanel.command("/Medias/ToggleMediaLike/" + $(this).attr("mediaId"));
@@ -147,6 +155,18 @@
                 });
                 $("#categorySelect").on('change', function () {
                     window.location = "/Medias/SetSearchCategory?value=" + $("#categorySelect").val();
+                });
+            }
+            function ownersSelectPostRefresh() {
+                $("#ownerSelect").off();
+                $("#ownerSelect").focus(function () {
+                    mediasListAutoRefreshPanel.pause();
+                });
+                $("#ownerSelect").blur(function () {
+                    mediasListAutoRefreshPanel.restart();
+                });
+                $("#ownerSelect").on("change", function () {
+                    window.location = "/Medias/SetSearchOwner?id=" + $("#ownerSelect").val();
                 });
             }
         })

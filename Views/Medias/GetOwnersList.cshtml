@@ -1,0 +1,17 @@
+@model List<Models.User>
+
+@{
+    int selectedOwnerId = ViewBag.SelectedOwnerId != null ? (int)ViewBag.SelectedOwnerId : 0;
+    List<Models.Media> medias = ViewBag.Medias != null ? (List<Models.Media>)ViewBag.Medias : new List<Models.Media>();
+}
+
+<select id="ownerSelect" class="form-control">
+    <option value="0" @(selectedOwnerId == 0 ? "selected" : "")>Tous les usagers</option>
+    @foreach (var user in Model)
+    {
+        int mediasCount = medias.Count(m => m.OwnerId == user.Id);
+        <option value="@user.Id" @(selectedOwnerId == user.Id ? "selected" : "")>
+            @user.Name (@mediasCount)
+        </option>
+    }
+</select>
