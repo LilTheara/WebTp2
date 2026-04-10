@@ -66,7 +66,13 @@ public class MediasController : Controller
                 string SelectedCategory = (string)Session["SelectedCategory"];
                 if (SelectedCategory != "")
                     result = result.Where(c => c.Category == SelectedCategory);
-            }
+
+				int selectedOwnerId = (int)Session["SelectedOwnerId"];
+				if (selectedOwnerId != 0)
+				{
+					result = result.Where(m => m.OwnerId == selectedOwnerId);
+				}
+			}
 
 
             if ((bool)Session["SortAscending"])
@@ -199,70 +205,19 @@ public class MediasController : Controller
     {
         try
         {
-            IEnumerable<Media> result = null;
-
-            if (DB.Medias.HasChanged || DB.Users.HasChanged || DB.Likes.HasChanged|| forceRefresh)
-            {
-                InitSessionVariables();
-
-                bool search = (bool)Session["Search"];
-                string searchString = (string)Session["SearchString"];
-                string selectedCategory = (string)Session["SelectedCategory"];
-                int selectedOwnerId = Session["SelectedOwnerId"] != null ? (int)Session["SelectedOwnerId"] : 0;
-
-                Models.User connectedUser = Models.User.ConnectedUser;
-
-                if (connectedUser.IsAdmin)
-                {
-                    result = DB.Medias.ToList();
-                }
-                else
-                {
-                    result = DB.Medias.ToList()
-                        .Where(m => m.OwnerId == connectedUser.Id || m.Shared);
-                }
-
-                if (search)
-                {
-                    result = result.Where(m => m.Title.ToLower().Contains(searchString));
-                }
-
-                if (selectedCategory != "")
-                {
-                    result = result.Where(m => m.Category == selectedCategory);
-                }
-
-                if (selectedOwnerId != 0)
-                {
-                    result = result.Where(m => m.OwnerId == selectedOwnerId);
-                }
-
-                MediaSortBy mediaSortBy = Session["MediaSortBy"] != null
-                    ? (MediaSortBy)Session["MediaSortBy"]
-                    : MediaSortBy.Title;
-
-                bool ascending = (bool)Session["SortAscending"];
-
-                if (mediaSortBy == MediaSortBy.Title)
-                {
-                    result = ascending ? result.OrderBy(m => m.Title)
-                                       : result.OrderByDescending(m => m.Title);
-                }
-                else if (mediaSortBy == MediaSortBy.PublishDate)
-                {
-                    result = ascending ? result.OrderBy(m => m.PublishDate)
-                                       : result.OrderByDescending(m => m.PublishDate);
-                }
-                else // Likes
-                {
-                    result = ascending ? result.OrderBy(m => DB.Likes.CountByMediaId(m.Id))
-                                       : result.OrderByDescending(m => DB.Likes.CountByMediaId(m.Id));
-                }
-
-                return PartialView(result);
-            }
-
-            return null;
+			if (DB.Users.HasChanged ||
+					DB.Medias.HasChanged || 
+                    DB.Likes.HasChanged ||
+					forceRefresh)
+			{
+				InitSessionVariables();
+				int pageNum = (int)Session["pageNum"];
+				int pageSize = (int)Session["pageSize"];
+				int firstPageSize = (int)Session["firstPageSize"];
+				return PartialView(_getItems(0, pageNum > 1 ? (pageNum - 1) * pageSize + firstPageSize : firstPageSize));
+			}
+			return null;
+			
         }
         catch (System.Exception ex)
         {
@@ -339,7 +294,8 @@ public class MediasController : Controller
     }
     public ActionResult SetSearchOwner(int id = 0)
     {
-        Session["SelectedOwnerId"] = id;
+		ResetMediasPaging();
+		Session["SelectedOwnerId"] = id;
         return RedirectToAction("List");
     }
     public ActionResult About()
@@ -466,39 +422,28 @@ public class MediasController : Controller
         {
             InitSessionVariables();
 
-            bool search = (bool)Session["Search"];
-            if (!search) return null;
+			bool search = (bool)Session["Search"];
 
-            var medias = DB.Medias.ToList() ?? new List<Media>();
-            var users = DB.Users.ToList() ?? new List<User>();
-            Models.User connectedUser = Models.User.ConnectedUser;
+			if (search)
+			{
+				var connectedUser = Models.User.ConnectedUser;
+				var visibleMedias = DB.Medias.ToList()
+					.Where(m => connectedUser.IsAdmin || m.OwnerId == connectedUser.Id || m.Shared)
+					.ToList();
 
-            IEnumerable<Media> visibleMedias;
+				var ownerIds = DB.Medias.ToList().Select(m => m.OwnerId).Distinct();
 
-            if (connectedUser.IsAdmin)
-            {
-                visibleMedias = medias;
-            }
-            else
-            {
-                visibleMedias = medias.Where(m => m.OwnerId == connectedUser.Id || m.Shared);
-            }
+				var owners = DB.Users.ToList()
+					.Where(u => ownerIds.Contains(u.Id))
+					.OrderBy(u => u.Name)
+					.ToList();
 
-            var ownerIds = visibleMedias
-                .Select(m => m.OwnerId)
-                .Distinct()
-                .ToList();
-
-            var owners = users
-                .Where(u => ownerIds.Contains(u.Id))
-                .OrderBy(u => u.Name)
-                .ToList();
-
-            ViewBag.SelectedOwnerId = Session["SelectedOwnerId"] != null ? (int)Session["SelectedOwnerId"] : 0;
-            ViewBag.Medias = visibleMedias.ToList();
-
-            return PartialView(owners);
-        }
+				ViewBag.Medias = visibleMedias;
+				ViewBag.SelectedOwnerId = (int)Session["SelectedOwnerId"];
+				return PartialView(owners);
+			}
+			return PartialView(new List<User>());
+		}
         catch (System.Exception ex)
         {
             return Content("Erreur interne " + ex.Message, "text/html");

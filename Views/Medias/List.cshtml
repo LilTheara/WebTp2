@@ -159,10 +159,10 @@
             }
             function ownersSelectPostRefresh() {
                 $("#ownerSelect").off();
-                $("#ownerSelect").focus(function () {
+                $("#ownerSelect").on("focus", function () {
                     mediasListAutoRefreshPanel.pause();
                 });
-                $("#ownerSelect").blur(function () {
+                $("#ownerSelect").on("blur", function () {
                     mediasListAutoRefreshPanel.restart();
                 });
                 $("#ownerSelect").on("change", function () {

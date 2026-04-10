@@ -193,12 +193,17 @@
 </div>
 @if (search && controller == "medias" && action == "list")
 {
+	var owners = DAL.DB.Users.ToList()
+				 .Where(u => DAL.DB.Medias.ToList().Any(m => m.OwnerId == u.Id))
+				 .OrderBy(u => u.Name).ToList();
     <div class="flex">
         <input type="search" id="searchInput" class="section roundedBorder flexItem" value="@searchString" placeholder="Recherche...">
         <div id="categorySelectPanel" class="flexItem">
             <!-- Dynamically refreshed -->
             @{ Html.RenderPartial("GetMediasCategoriesList"); }
         </div>
-        <div id="ownerSelectPanel" class="flexItem"></div>
+        <div id="ownerSelectPanel" class="flexItem">
+			@{ Html.RenderPartial("GetOwnersList", owners); }
+		</div>
     </div>
 }
