@@ -431,7 +431,7 @@ public class MediasController : Controller
 					.Where(m => connectedUser.IsAdmin || m.OwnerId == connectedUser.Id || m.Shared)
 					.ToList();
 
-				var ownerIds = DB.Medias.ToList().Select(m => m.OwnerId).Distinct();
+				var ownerIds = visibleMedias.Select(m => m.OwnerId).Distinct();
 
 				var owners = DB.Users.ToList()
 					.Where(u => ownerIds.Contains(u.Id))

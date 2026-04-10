@@ -194,7 +194,7 @@
 @if (search && controller == "medias" && action == "list")
 {
 	var owners = DAL.DB.Users.ToList()
-				 .Where(u => DAL.DB.Medias.ToList().Any(m => m.OwnerId == u.Id))
+				 .Where(u => DAL.DB.Medias.ToList().Any(m => m.OwnerId == u.Id && m.Shared))
 				 .OrderBy(u => u.Name).ToList();
     <div class="flex">
         <input type="search" id="searchInput" class="section roundedBorder flexItem" value="@searchString" placeholder="Recherche...">
